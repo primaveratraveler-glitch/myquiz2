@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>私の自己紹介とクイズ</title>
+  <style>
+    body {
+      font-family: "Segoe UI", "Hiragino Sans", sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #4CAF50;
+      color: white;
+      text-align: center;
+      padding: 1.5em 0;
+    }
+
+    section {
+      max-width: 800px;
+      margin: 20px auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #4CAF50;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-top: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .quiz {
+      margin-top: 20px;
+    }
+
+    .result {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>私の自己紹介ページ</h1>
+  </header>
+
+  <section id="about">
+    <h2>自己紹介</h2>
+    <p>こんにちは！私の名前は <strong>春道</strong> です。</p>
+    <p>現在、プログラミングを学び始めたばかりで、HTML・CSS・JavaScriptをこれから勉強し始めるです。</p>
+    <p>趣味は読書と格闘技鑑賞です！コーヒーも最近ハマってます！</p>
+    <p>このページでは、皆様とのお近づきのしるしに私に関するクイズを出題します。挑戦してみてください！</p>
+  </section>
+
+  <section class="quiz">
+    <h2>クイズコーナー</h2>
+    <div id="quiz-container"></div>
+    <button onclick="checkAnswers()">採点する</button>
+    <div class="result" id="result"></div>
+  </section>
+
+  <script>
+    /* ▼▼▼ クイズの問題と答えをここに入力します ▼▼▼ */
+    const quizData = [
+      {
+        question: "私が格闘技にハマった試合は誰VS誰でしょうか？",
+        options: ["桜庭和志VSヘンゾ・グレイシー", "石澤常光VSハイアン・グレイシー", "山本KID徳郁VSホイラー・グレイシー"],
+        answer: "石澤常光VSハイアン・グレイシー"
+      },
+      {
+        question: "私がベストバウトだと思う格闘技の試合は誰VS誰でしょうか？",
+        options: ["デメトリアスジョンソンVSアドリアーノモラエス", "堀口恭司VSダリオンコールドウェル", "高山善廣VSドンフライ"],
+        answer: "高山善廣VSドンフライ"
+      },
+      {
+        question: "ギャビガルシアは何kg体重オーバーしましたか？",
+        options: ["12kg", "30kg", "500g"],
+        answer: "12kg"
+      }
+    ];
+    /* ▲▲▲ クイズの設問と答えはここを編集 ▲▲▲ */
+
+    const quizContainer = document.getElementById('quiz-container');
+
+    // クイズを画面に表示
+    quizData.forEach((q, index) => {
+      const div = document.createElement('div');
+      div.innerHTML = `
+        <p><strong>Q${index + 1}. ${q.question}</strong></p>
+        ${q.options.map(opt => `
+          <label>
+            <input type="radio" name="q${index}" value="${opt}"> ${opt}
+          </label><br>
+        `).join('')}
+        <hr>
+      `;
+      quizContainer.appendChild(div);
+    });
+
+    // 採点処理
+    function checkAnswers() {
+      let score = 0;
+      quizData.forEach((q, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        if (selected && selected.value === q.answer) score++;
+      });
+
+      const result = document.getElementById('result');
+      result.textContent = `あなたの正解数は ${score} / ${quizData.length} です！`;
+    }
+  </script>
+</body>
+</html>
